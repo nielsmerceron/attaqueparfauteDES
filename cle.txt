@@ -3,10 +3,10 @@ Etudiant(e) : 21801038 - MERCERON Niels
 Message clair :
  8AB3C40D928A5EEA 
 
-Message chiffret juste :
+Message chiffré juste :
  C94DCE15F37F8394 
 
-Messages chiffrets faux :
+Messages chiffré faux :
 CB58CE51F37F8384
 C94FCE51F37F8394
 C95DCC51F37E8394
