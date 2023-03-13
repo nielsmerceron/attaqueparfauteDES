@@ -26,13 +26,24 @@
 			
 		\chapter{Application concrète}
 			\section{Description de l'attaque par faute}
+			Pour commencer on veut obtenir R16 et L16 donc on effectue au chiffré correcte les permutations décrite par IP. On fait la même chose pour obtenir R16' et L16' qui correspondent au chiffré fauté.\\
+			On a donc $R16 = R15$ , $L16 = L15\oplus f(R15,K16)$ mais aussi $R16'=R15'$ et $L16'=L15\oplus f(R15',K16)$.
+			Pour savoir ou ce situe l'erreur on effectue le calcul suivant $R16\oplus R16' = R15\oplus R15' = R15\oplus R15\oplus \mathcal{E} = \mathcal{E}$. Savoir ou ce situe l'erreur nous aidera plus tard.\\
 			
-			On obtient donc comme partie de clef :
+			Une fois cela fait on passe a la partie plus technique.Notre but est de trouver une formule avec ce que nous connaissons, avec K16 dedans et la plus réduite possible.
+			On va donc commencer par effectuer :\\
+			$L16'\oplus L16 = L15\oplus f(R15',K16) \oplus L15\oplus f(R15,K16) =f(R15',K16)\oplus f(R15,K16)$.
+			
+			une fois cela fait on va écrire explicitement la fonction f. Cette fonction f consiste en une expansion(E) puis on xor le résultat avec $K_i$(dans notre cas $K_{16}$) ensuite le résultat du xor passe dans les Sbox et pour finir passe dans une permutation(P). 
+			on obtient donc la formule suivant :
+			
+			
+			On obtient donc comme partie de clef : B1a6e1869a35
 		
 		\chapter{Retrouver la clef complète du DES}
 			Pour retrouver les 8 bits manquants on peut force brute sur $2^{8}$ valeur et calculer le Des avec chaque clef créé a l'aide des $2^{8}$
 			
-			On obtient donc comme clef : 
+			On obtient donc comme clef : E65875255B64BA40
 		
 		\chapter{Fautes sur les tours précédents}
 			\section{attaque sur le 14ème tour}
