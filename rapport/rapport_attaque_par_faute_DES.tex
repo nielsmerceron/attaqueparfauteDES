@@ -35,12 +35,20 @@
 			Pour savoir ou ce situe l'erreur on effectue le calcul suivant $R16\oplus R16' = R15\oplus R15' = R15\oplus R15\oplus \mathcal{E} = \mathcal{E}$. Savoir ou ce situe l'erreur nous aidera plus tard.\\
 			
 			Une fois cela fait on passe a la partie plus technique.Notre but est de trouver une formule avec ce que nous connaissons, avec K16 dedans et la plus réduite possible.
-			On va donc commencer par effectuer :\\
+			On va donc commencer par effectuer $L16\oplus L16'$ pour supprimer L15 de l'équation  :\\
 			$L16'\oplus L16 = L15\oplus f(R15',K16) \oplus L15\oplus f(R15,K16) =f(R15',K16)\oplus f(R15,K16)$.\\
 			
 			une fois cela fait on va écrire explicitement la fonction f. Cette fonction f consiste en une expansion(E) puis on xor le résultat avec $K_i$(dans notre cas $K_{16}$) ensuite le résultat du xor passe dans les Sbox et pour finir passe dans une permutation(P). 
 			on obtient donc la formule suivant :
 			\begin{center}$L16'\oplus L16 = P(S(E(R_{15}')\oplus K_{16}))\oplus P(S(E(R_{15})\oplus K_{16})) $\end{center}
+			
+			La permutation P est linéaire donc on peut appliquer $P^{-1}$ a notre formule pour enlever P. on obtient donc la formule suivante :
+			\begin{center}$P^{-1}(L16'\oplus L16) = P^{-1}(P(S(E(R_{15}')\oplus K_{16}))\oplus P(S(E(R_{15})\oplus K_{16}))) $
+			$P^{-1}(L16'\oplus L16) = S(E(R_{15}')\oplus K_{16})\oplus S(E(R_{15})\oplus K_{16}) $\end{center}
+		
+			Une fois cela fait on peut remarquer qu'on ne peut pas plus réduire notre équation car les Sbox (S) ne sont pas linéaire. 
+			Nous allons donc force brute $2^{6}$ valeurs sur la ou les deux Sbox celon l'emplacement de l'erreur déterminée un peu plus haut.
+			
 			
 			
 			On obtient donc comme partie de clef : B1A6E1869A35
@@ -68,7 +76,7 @@
 			
 			\section{Diffusion de l'erreur}
 				Une autre solution que j'ai discuté avec mon chargé de td est la diffusion de l'erreur. Plus précisément, le but est de propagé l'erreur a tous les bits, plusieurs fois de manières non linéaire pour que le chiffré obtenu par l'attaquant ne puisse lui donner aucune information sur la clef ou tout autre élément utile a l'attaquant.
-				Cependant dans les fait cette solution n'a pas encore été réalisé pour le DES ou autre chiffrement du même type que le DES. Il y a un problème majeur avec cette méthode il faut déjà détecter ou non la faute ce qui n'est pas trop compliqué en soit mais de cette détection découle le fait d'appliquer ou non la diffusion de la faute. A énoncé verbalement c'est simple mais dans les faits aucun modèle ou solution concrète n'a été décrite a ce jour dans la littérature Cryptographique.
+				Cependant dans les fait cette solution n'a pas encore été réalisé pour le DES ou autre chiffrement du même type que le DES. Il y a un problème majeur avec cette méthode il faut déjà détecter la faute ce qui n'est pas trop compliqué en soit mais de cette détection découle le fait d'appliquer ou non la diffusion de la faute. A énoncé verbalement c'est simple mais dans les faits aucun modèle ou solution concrète n'a été décrite a ce jour dans la littérature Cryptographique.
 		
 		\chapter{Annexe}
 

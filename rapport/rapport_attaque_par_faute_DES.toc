@@ -1,4 +1,4 @@
-\babel@toc {french}{}
+\babel@toc {french}{}\relax 
 \contentsline {chapter}{\numberline {1}Attaque par faute sur le DES}{2}{}%
 \contentsline {section}{\numberline {1.1}Description du principe d'attaque par faute}{2}{}%
 \contentsline {chapter}{\numberline {2}Application concrète}{3}{}%
@@ -10,5 +10,5 @@
 \contentsline {section}{\numberline {4.3}généralisation sur le nième tour}{5}{}%
 \contentsline {chapter}{\numberline {5}Contre-mesures}{6}{}%
 \contentsline {section}{\numberline {5.1}Doublé le calcul du DES}{6}{}%
-\contentsline {section}{\numberline {5.2}rajouté de l'aléatoire/calcul imbriqué}{6}{}%
+\contentsline {section}{\numberline {5.2}Diffusion de l'erreur}{6}{}%
 \contentsline {chapter}{\numberline {6}Annexe}{7}{}%
