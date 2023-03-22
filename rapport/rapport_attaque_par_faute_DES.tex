@@ -6,6 +6,7 @@
 \usepackage{amsfonts}
 \usepackage{float}
 \usepackage[export]{adjustbox}
+\usepackage{tikz}
 
 \date{}
 \title{Calcul sécurisé, Attaque par faute sur le DES}
@@ -19,8 +20,18 @@
 	 \tableofcontents
 		\chapter{Attaque par faute sur le DES}
 			\section{Description du principe d'attaque par faute}
-			\includegraphics[scale=0.49]{DESFAUTE.pdf} \includegraphics[scale=0.48]{DES.pdf}
-			\begin{center}\title{Schéma du DES avec et sans faute}\end{center}
+			\begin{tikzpicture}
+			\draw (0,0) rectangle (5,0.5) ;
+			\draw [->] (2.5,0) -- (2.5,-0.5);
+			\draw (2.5,0) -- (2.5,-0.5);
+			\draw (2.5,-1.01) circle (0.5);
+			\draw [->](2.5,-1.5) -- (2.5,-2);
+			\draw (0,-2.01) rectangle (2.5,-2.5);
+			\draw (2.5,-2.01) rectangle (5,-2.5);
+			\end{tikzpicture}
+			
+			\newpage
+			
 			 
 			On va injecté une faute a l'aide d'un laser dans un tour (dans notre cas le 15ème), de cette faute résultera un chiffré différent de celui sans faute.
 			De ces Deux chiffrés on les comparera en effectuant divers calcul dessus pour arriver a manipulé quelque chose de simple et qui nous donne de l'information sur la clef secrète.
