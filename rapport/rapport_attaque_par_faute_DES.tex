@@ -163,7 +163,6 @@
 		
 			\section{Description du principe d'attaque par faute}
 			
-			 
 			On va injecté une faute a l'aide d'un laser dans un tour (dans notre cas le 15ème), de cette faute résultera un chiffré différent de celui sans faute.
 			De ces Deux chiffrés on les comparera en effectuant divers calcul dessus pour arriver a manipulé quelque chose de simple et qui nous donne de l'information sur la clef secrète.
 			Plus précissement, on identifera quel bit est touché par la faute. Une fois le bit identifié on regardera quel fontion sont touchées par ce bit fauté.
@@ -172,34 +171,33 @@
 			\section{Description de l'attaque par faute}
 			Pour commencer on veut obtenir R16 et L16 donc on effectue au chiffré correcte les permutations décrite par IP. On fait la même chose pour obtenir R16' et L16' qui correspondent au chiffré fauté.\\
 			On a donc $R_{16} = R_{15}$ , $L_{16} = L_{15}\oplus f(R_{15},K_{16})$ mais aussi $R_{16}'=R_{15}'$ et $L_{16}'=L_{15}\oplus f(R_{15}',K_{16})$.
-			Pour savoir ou ce situe l'erreur on effectue le calcul suivant $R_{16}\oplus R_{16}' = R_{15}\oplus R_{15}' = R_{15}\oplus R_{15}\oplus \mathcal{E} = \mathcal{E}$. Savoir ou ce situe l'erreur nous aidera plus tard.\\
-			
-			Une fois cela fait on passe a la partie plus technique.Notre but est de trouver une formule avec ce que nous connaissons, avec K16 dedans et la plus réduite possible.
+			Pour savoir ou ce situe l'erreur on effectue le calcul suivant $R_{16}\oplus R_{16}' = R_{15}\oplus R_{15}' = R_{15}\oplus R_{15}\oplus \mathcal{E} = \mathcal{E}$. Savoir ou ce situe l'erreur nous aidera plus tard.
+			\newline Une fois cela fait on passe a la partie plus technique.Notre but est de trouver une formule avec ce que nous connaissons, avec K16 dedans et la plus réduite possible.
 			On va donc commencer par effectuer :\\
 			$L_{16}'\oplus L_{16} = L_{15}\oplus F(R_{15}',K_{16}) \oplus L_{15}\oplus F(R_{15},K_{16}) =F(R_{15}',K_{16})\oplus F(R_{15},K_{16})$.\\
 			
 			une fois cela fait on va écrire explicitement la fonction F. Cette fonction F consiste en une expansion(E) puis on xor le résultat avec $K_i$(dans notre cas $K_{16}$) ensuite le résultat du xor passe dans les Sbox et pour finir passe dans une permutation(P).
-			
 			\begin{figure}[h]
-			\begin{center}
+			\centering
 				\begin{tikzpicture}
-				\draw [->](4.4,0) -- (4.4,-0.5);
-				\draw (4.4,-1.01) circle (0.5) node {E};
-				\draw [->](4.4,-1.5) -- (4.4,-2);
-				\draw (4.4,-2.21) circle (0.2);
-				\draw (4.4,-2) -- (4.4,-2.40);
-				\draw (4.2,-2.20) -- (4.6,-2.20);
-				\draw [->](4.4,-2.40) -- (4.4,-2.90);
-				\draw (0,-2.91) rectangle (8.8,-3.9);
-				\draw (1.1,-2.91) -- (1.1,-3.9);
-				\draw (2.2,-2.91) -- (2.2,-3.9);
-				\draw (3.3,-2.91) -- (3.3,-3.9);
-				\draw (4.4,-2.91) -- (4.4,-3.9);
-				\draw (5.5,-2.91) -- (5.5,-3.9);
-				\draw (6.6,-2.91) -- (6.6,-3.9);
-				\draw (7.7,-2.91) -- (7.7,-3.9);
-				
-				\draw (0.55,-3.9) -- (0.55,-4.3);
+				\draw [->](2,-2.61) -- (2.8,-2.61) node [pos=-0.5] {$R_{i-1}$} node [midway,below] {32};
+				\draw (3.2,-2.61) circle (0.4) node {E} node [above=10] {expansion};
+				\draw [->](3.6,-2.61) -- (4.2,-2.61) node [below,midway] {48};
+				\draw (4.4,-2.61) circle (0.2);
+				\draw [->](5.1,-2.61) -- (4.6,-2.61) node [pos=-0.5] {$K_{i}$} node [midway,below] {48};
+				\draw (4.4,-2.40) -- (4.4,-2.80);
+				\draw (4.2,-2.60) -- (4.6,-2.60);
+				\draw [->](4.4,-2.80) -- (4.4,-3.30);
+				\draw (0,-3.31) rectangle (8.8,-3.9) ;
+				\draw [thin](8.8,-3.31) -- (8.8,-3.9) node [midway,right] {8 x 6 bits};
+				\draw (1.1,-3.31) -- (1.1,-3.9);
+				\draw (2.2,-3.31) -- (2.2,-3.9);
+				\draw (3.3,-3.31) -- (3.3,-3.9);
+				\draw (4.4,-3.31) -- (4.4,-3.9);
+				\draw (5.5,-3.31) -- (5.5,-3.9);
+				\draw (6.6,-3.31) -- (6.6,-3.9);
+				\draw (7.7,-3.31) -- (7.7,-3.9);
+				\draw (0.55,-3.9) -- (0.55,-4.3) node [midway,left] {6};
 				\draw (1.65,-3.9) -- (1.65,-4.3);
 				\draw (2.75,-3.9) -- (2.75,-4.3);
 				\draw (3.85,-3.9) -- (3.85,-4.3);
@@ -207,42 +205,39 @@
 				\draw (6.05,-3.9) -- (6.05,-4.3);
 				\draw (7.15,-3.9) -- (7.15,-4.3);
 				\draw (8.25,-3.9) -- (8.25,-4.3);
-				
-				\draw (0.30,-4.3) rectangle (0.80,-4.8);
-				\draw (1.40,-4.3) rectangle (1.9,-4.8);
-				\draw (2.5,-4.3) rectangle (3,-4.8);
-				\draw (3.60,-4.3) rectangle (4.10,-4.8);
-				\draw (4.70,-4.3) rectangle (5.20,-4.8);
-				\draw (5.80,-4.3) rectangle (6.30,-4.8);
-				\draw (6.90,-4.3) rectangle (7.40,-4.8);
-				\draw (8,-4.3) rectangle (8.50,-4.8);
-				
-				\draw (0.55,-4.8) -- (1.5125,-5.5);
-				\draw (1.65,-4.8) -- (2.3375,-5.5);
-				\draw (2.75,-4.8) -- (3.1625,-5.5);
-				\draw (3.85,-4.8) -- (3.9875,-5.5);
-				\draw (4.95,-4.8) -- (4.8125,-5.5);
-				\draw (6.05,-4.8) -- (5.6375,-5.5);
-				\draw (7.15,-4.8) -- (6.4625,-5.5);
-				\draw (8.25,-4.8) -- (7.2875,-5.5);
-				
-				\draw (1.1,-5.5) rectangle (7.7,-5.9);
-				\draw (1.925,-5.5) -- (1.925,-5.9);
-				\draw (2.75,-5.5) -- (2.75,-5.9);
-				\draw (3.575,-5.5) -- (3.575,-5.9);
-				\draw (4.4,-5.5) -- (4.4,-5.9);
-				\draw (5.225,-5.5) -- (5.225,-5.9);
-				\draw (6.05,-5.5) -- (6.05,-5.9);
-				\draw (6.87,-5.5) -- (6.87,-5.9);
-				
-				\draw [->](4.4,-5.9) -- (4.4,-6.4);
-				\draw (4.4,-6.91) circle (0.5) node {P}
-				\draw [->](4.4,-7.4) -- (4.4,-7.9);
-				
+				\draw (0.30,-4.3) rectangle (0.80,-4.8) node [midway] {$S_{1}$};
+				\draw (1.40,-4.3) rectangle (1.9,-4.8) node [midway] {$S_{2}$};
+				\draw (2.5,-4.3) rectangle (3,-4.8)node [midway] {$S_{3}$};
+				\draw (3.60,-4.3) rectangle (4.10,-4.8)node [midway] {$S_{4}$};
+				\draw (4.70,-4.3) rectangle (5.20,-4.8)node [midway] {$S_{5}$};
+				\draw (5.80,-4.3) rectangle (6.30,-4.8)node [midway] {$S_{6}$};
+				\draw (6.90,-4.3) rectangle (7.40,-4.8)node [midway] {$S_{7}$};
+				\draw (8,-4.3) rectangle (8.50,-4.8)node [midway] {$S_{8}$};
+				\draw (0.55,-4.8) -- (1.5125,-5.3) node [midway,left] {4};
+				\draw (1.65,-4.8) -- (2.3375,-5.3);
+				\draw (2.75,-4.8) -- (3.1625,-5.3);
+				\draw (3.85,-4.8) -- (3.9875,-5.3);
+				\draw (4.95,-4.8) -- (4.8125,-5.3);
+				\draw (6.05,-4.8) -- (5.6375,-5.3);
+				\draw (7.15,-4.8) -- (6.4625,-5.3);
+				\draw (8.25,-4.8) -- (7.2875,-5.3);
+				\draw (1.1,-5.3) rectangle (7.7,-5.7);
+				\draw [thin](7.7,-5.3) -- (7.7,-5.7) node [midway,right] {8 x 4 bits};
+				\draw (1.925,-5.3) -- (1.925,-5.7);
+				\draw (2.75,-5.3) -- (2.75,-5.7);
+				\draw (3.575,-5.3) -- (3.575,-5.7);
+				\draw (4.4,-5.3) -- (4.4,-5.7);
+				\draw (5.225,-5.3) -- (5.225,-5.7);
+				\draw (6.05,-5.3) -- (6.05,-5.7);
+				\draw (6.87,-5.3) -- (6.87,-5.7);
+				\draw [->](4.4,-5.7) -- (4.4,-6.1) node [midway,left] {32};
+				\draw (4.4,-6.51) circle (0.4) node {P};
+				\draw [->](4.8,-6.51) -- (5.3,-6.51)node [pos=6.4] {$f(R_{i-1},K_{i}=P(S(E(R_{i-1})\oplus K_{i}))$};
 				
 				\end{tikzpicture}
-			\end{center}
+				\caption{Schéma de la fonction F}
 			\end{figure}
+			\newpage
 			on obtient donc la formule suivant :
 			\begin{center}$L_{16}'\oplus L_{16} = P(S(E(R_{15}')\oplus K_{16}))\oplus P(S(E(R_{15})\oplus K_{16})) $\end{center}
 			
