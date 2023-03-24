@@ -9,6 +9,7 @@
 \usepackage{tikz}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{subfig}
 
 \date{}
 \title{Calcul sécurisé, Attaque par faute sur le DES}
@@ -280,6 +281,7 @@
  					 $C_{i}\leftarrow (C_{i-1}\leftarrow v_{i}),D_{i}\leftarrow (D_{i-1}\leftarrow v_{i}),K_{i}\leftarrow PC2(C_{i},D_{i})$.(utiliser la table PC2 pour sélectionner 48 bits de la concaténation de $b_{1}b_{2}...b_{56} de C_{i} et D_{i}:K_{i}=b_{14}b_{17}...b_{32})$.
 			\end{algorithm}
 			\begin{figure}[h]
+			\subfloat[][]{
 			\begin{tabular}{|c|c|c|c|c|c|c|}
 				\hline
 				57 & 49 & 41 & 33 & 25 & 17 & 9 \\ \hline
@@ -292,10 +294,9 @@
 				14 & 6 & 61 & 53 & 45 & 37 & 29 \\ \hline
 				21 & 13 & 5 & 28 & 20 & 12 & 4 \\ \hline
 			\end{tabular}
-			\caption{table PC1 ($C_{i} en haut, D_{i} en bas$)}
-			\end{figure}
-		
-			\begin{figure}[h]
+			}
+			\qquad
+			\subfloat[][]{
 			\begin{tabular}{|c|c|c|c|c|c|c|}
 			\hline
 			14 & 17 & 11 & 24 & 1 & 5 \\ \hline
@@ -308,7 +309,8 @@
 			 44 & 49 & 39 & 56 & 34 & 53 \\ \hline
 			 46 & 42 & 50 & 36 & 29 & 32 \\ \hline
 			\end{tabular}
-			\caption{table PC2}
+			}
+			\caption{table PC1(a) avec $C_{i}$ en haut, $D_{i}$ en bas et PC2(b)}
 			\end{figure}
 			
 			On obtient donc comme clef : E65875255B64BA40
