@@ -313,7 +313,8 @@
 			\caption{table PC1(a) avec $C_{i}$ en haut, $D_{i}$ en bas et PC2(b)}
 			\end{figure}
 			
-			On obtient donc comme clef : E65875255B64BA40
+			Pour retrouver la clef en entier on va calculer le cadencement de clef a l'envers.Plus précisément, on va inverser PC2 et PC1 pour retrouver l'emplacement de nos 48 bits avant cadencement. Une fois cela fait, nous connaissons donc 48 sur 56 bit donc il faut force brute sur 8 bit donc cela représente $2^{8}$ valeurs a testé. si on veut retrouver la clef entière avec les bits de parités, il faudra force brute sur 16 bits donc $2^{16}$ valeurs a tester.\\
+			Une fois cela fait j'obtient donc comme clef : E65875255B64BA40
 		
 		\chapter{Fautes sur les tours précédents}
 			\section{attaque sur le 14ème tour}
