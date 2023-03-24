@@ -7,7 +7,8 @@
 \usepackage{float}
 \usepackage[export]{adjustbox}
 \usepackage{tikz}
-
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \date{}
 \title{Calcul sécurisé, Attaque par faute sur le DES}
@@ -266,10 +267,49 @@
 			$\alpha_{\gamma_1}$= 01 ..... 1000 0101 , $\alpha_{\gamma_1}$ n'est pas le bon candidat car les 4 derniers bits sont différent de celui de $S(E(R_{15})\oplus K_{16}$.\\
 			$\alpha_{\gamma_2}$= 00 ..... 0110 1110 , $\alpha_{\gamma_2}$ les 4 derniers bit sont équivalent à $S(E(R_{15})\oplus K_{16}$ donc les bit de 31 à 28 sont égaux a ceux de $\gamma_2$.\\
 			
+			La compléxité serait de $2^{6}$ par Sbox donc une compléxité de $2^{9}$ au total.\\
 			Pour finir après avoir appliquer l'attaque décrite un peu plus haut j'obtiens la clef suivante: B1A6E1869A35
 		\chapter{Retrouver la clef complète du DES}
-			Pour retrouver 48bits des 56bits de la clef j'effectue le cadencement de clef a l'inverse de comment il est décrit.
-			Une fois ces 48 bits déterminer, certains bits n'on pas de valeurs donc pour retrouver ces derniers 8 bits on va les faire varier en effectuant une force brute de $2^{8}$ valeurs. A chaque valeur on effectue le DES avec la nouvelle clef, tant que nous obtenons pas le bon chiffré en sorti on continue de faire varier les 8bits manquants. Une fois le bon chiffrer en sorti, la bonne clef de 56 bits a été trouvé.\\
+			\begin{algorithm}
+				\caption{DES cadencement de clef}
+				\hspace*{\algorithmicindent} \textbf{Input}: 64 bit de clef K=$k_{1} .... k_{64}$.\\
+ 				\hspace*{\algorithmicindent} \textbf{Output}: 16 clef de 48 bit $K_{i}, 1\leq i \leq 16$.\\
+ 				1.Définir $v_{i}, 1\leq i \leq 16$ tel que: $v_{i}$ = 1 pour i $\in$ {1,2,9,16};$v_{i}=2$ sinon.\\
+ 				2.T$\leftarrow$PC1(K);T est une moitié de 28 bit de ($C_{0}$,$D_{0}$).(utiliser la table PC1 pour choisir des bit de K:$C_{0}=k_{57}k_{49}...k_{36},D_{0}=k_{63}k_{55}...k_{4}$).\\
+ 				3.Pour i de 1 à 16 calculer $K_{i}$ de la manière suivante:\\
+ 					 $C_{i}\leftarrow (C_{i-1}\leftarrow v_{i}),D_{i}\leftarrow (D_{i-1}\leftarrow v_{i}),K_{i}\leftarrow PC2(C_{i},D_{i})$.(utiliser la table PC2 pour sélectionner 48 bits de la concaténation de $b_{1}b_{2}...b_{56} de C_{i} et D_{i}:K_{i}=b_{14}b_{17}...b_{32})$.
+			\end{algorithm}
+			\begin{figure}[h]
+			\begin{tabular}{|c|c|c|c|c|c|c|}
+				\hline
+				57 & 49 & 41 & 33 & 25 & 17 & 9 \\ \hline
+				1 & 58 & 50 & 42 & 34 & 26 & 18 \\ \hline
+				10 & 2 & 59 & 51 & 43 & 35 & 27 \\ \hline
+				19 & 11 & 3 & 60 & 52 & 44 & 36 \\ \hline
+				\hline
+				63 & 55 & 47 & 39 & 31 & 23 & 15 \\ \hline
+				7 & 62 & 54 & 46 & 38 & 30 & 22 \\ \hline
+				14 & 6 & 61 & 53 & 45 & 37 & 29 \\ \hline
+				21 & 13 & 5 & 28 & 20 & 12 & 4 \\ \hline
+			\end{tabular}
+			\caption{table PC1 ($C_{i} en haut, D_{i} en bas$)}
+			\end{figure}
+		
+			\begin{figure}[h]
+			\begin{tabular}{|c|c|c|c|c|c|c|}
+			\hline
+			14 & 17 & 11 & 24 & 1 & 5 \\ \hline
+			3 & 28 & 15 & 6 & 21 & 10 \\ \hline
+			23 & 19 & 12 & 4 & 26 & 8 \\ \hline
+			16 & 7 & 27 & 20 & 13 & 2 \\ \hline
+			\hline
+			 41 & 52 & 31 & 37 & 47 & 55 \\ \hline
+			 30 & 40 & 51 & 45 & 33 & 48 \\ \hline
+			 44 & 49 & 39 & 56 & 34 & 53 \\ \hline
+			 46 & 42 & 50 & 36 & 29 & 32 \\ \hline
+			\end{tabular}
+			\caption{table PC2}
+			\end{figure}
 			
 			On obtient donc comme clef : E65875255B64BA40
 		
@@ -293,7 +333,7 @@
 				Une autre solution que j'ai discuté avec mon chargé de td est la diffusion de l'erreur. Plus précisément, le but est de propagé l'erreur a tous les bits, plusieurs fois de manières non linéaire pour que le chiffré obtenu par l'attaquant ne puisse lui donner aucune information sur la clef ou tout autre élément utile a l'attaquant.
 				Cependant dans les fait cette solution n'a pas encore été réalisé pour le DES ou autre chiffrement du même type que le DES. Il y a un problème majeur avec cette méthode il faut déjà détecter la faute ce qui n'est pas trop compliqué en soit mais de cette détection découle le fait d'appliquer ou non la diffusion de la faute. A énoncé verbalement c'est simple mais dans les faits aucun modèle ou solution concrète n'a été décrite a ce jour dans la littérature Cryptographique.
 		
-		\chapter{Annexe}
+		\chapter{Source/bibliographie}
 
 
 		
