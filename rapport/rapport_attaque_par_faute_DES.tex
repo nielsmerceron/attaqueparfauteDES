@@ -318,7 +318,12 @@
 			Une fois cela fait j'obtient donc comme clef : E65875255B64BA40
 		
 		\chapter{Fautes sur les tours précédents}
-			\section{attaque sur le 14ème tour}
+			\section{Tout est connu}
+			Dans ce cas si on connait tous les états intermédiaires de chaque tour car on peut y accéder physiquement sur la puce ou la carte alors l'attaque décrite un peu plus haut est possible sur tous les tours du DES. Ce pendant il y a un point qui diverge, pour retrouver la clef total du DES il faudra appliquer un candecement adapté au tour concerné.
+			
+			\section{On ne connait que l'output}
+			Dans ce cas on ne connaitra que $R_{16},R_{16}',L_{16},L_{16}',R_{0} et L_{0}$.\\
+			
 			équation du DES pour le tour 14 sans faute:\\
 			$L_{15}=R_{14}$ | $R_{15}=L_{14}\oplus F(R_{14},K_{15})$\\
 			$R_{16}=R_{15}$ | $L_{16}=L_{15}\oplus F(R_{15},K_{16})$\\
@@ -326,22 +331,11 @@
 			$L_{15}'=R_{14}'$ | $R_{15}'=L_{14}\oplus F(R_{14}',K_{15})$\\
 			$R_{16}=R_{15}'$ | $L_{16}'=L_{15}'\oplus F(R_{15}',K_{16})$\\
 			
-			Pour retrouver la clef $K_{15}$ on va écrire une équation la contenant a l'aide de $R_{16} et R_{16}'$.
-			On a donc:\\ $R_{16} \oplus R_{16}'=R_{15} \oplus R_{15}'=L_{14}\oplus F(R_{14},K_{15}) \oplus L_{14}\oplus F(R_{14}',K_{15})$.\\
-			Grace au XOR les deux L14 s'envont, on obtient donc :$F(R_{14},K_{15}) \oplus F(R_{14}',K_{15})$\\
-			On développe la Fonction F et on enlève la permutaion P car elle est linaire donc j'applique $P^{-1}$ a l'équation, on a donc :$S(E(R_{14})\oplus K_{15})\oplus S(E(R_{14}')\oplus K_{15})$.\\
-			
-			Maintenant pour ce faciliter la tâche nous allons essayer de déterminer les bit fautés.
-			si on fait $R_{16} \oplus R_{16}'$ théoriquement cela nous renvoie les bits différent, donc ceux fautées (on notera $\mathcal{E}$).\\
-			De plus on sait que $R_{16}=R_{15} et R_{16}' =R_{15}'$ donc $R_{15} \oplus R_{15}' = \mathcal{E}$.
-			Je récris cette égalité sous cette forme $ R_{15}' = R_{15} \oplus \mathcal{E}$, puis je développe $R_{15}$.
-			On a donc a la fin $R_{15}' = L_{14}\oplus F(R_{14},K_{15}) \oplus \mathcal{E}$. De cette égalité je peux déterminer exactement les sbox touchées par le bit fauté.\\
-			Maintenant que je connais ou est la faute, je vais pour utiliser l'équation contenant $K_{15}$. Je vais brute force $2^{6}$ valeurs sur les sbox touché par le bit fauté et retenir tous les $\alpha$ égaux a l'output de $S(E(R_{14}')\oplus K_{15})$( si on se fit a la description, de wikipedia , il y a par sorti 4 input possible).\\
-			Ne connaissant ni $R_{14} et R_{14}'$, je vais simuler l'expansion de $R_{14}'$ en fesant une force brute sur $2^{6}$ valeurs(les 6 bits d'expansion touchant la Sbox avec le bit fauté.)que je vais xor avec chaque $\alpha$ de chaque Sbox touchée par un bit fauté.
-			Cela nous donnera N candidats (dans notre cas $2^{2}*2{6}$ candidats) de 6 bit pour chaque Sbox touchée par un bit fauté pour retrouvé la clef $K_{15}$.\\
-			Une fois les étapes précédentes faites je vais re-itérer ces étapes autant de fois pour avoir des candidats pour chaque Sbox (Dans le pire cas $2^{3}$ fois).
-			\section{attaque sur le 13ème tour}
-			
+			On remarque que la faute c'est propagé et que donc retracé ou a été la faute est compliqué donc il faudra faire une recherche exaustive sur K15 pour essayer de retracer cette faute. De plus si on choisi de faire ça on devra connaitre $L_15$ et $L_15'$ pour nous faciliter la tâche sinon c'est très compliqué et cela augmenterai grandement la compléxité.\\ 
+			cette recherche exaustive va élever au carré notre compléxité de base.On aura donc une compléxité de $2^{18}$
+			cette élèvement au carré sera subit a chaque fois qu'on remontera dans les tours.
+			Donc pour le tour 13 on aura $2^{36}$.\\
+			Pour le tour 12 on aura $2^{72}$. On remarque qu'a partir du tour 12 cela ne sert plus a rien de faire l'attaque car on est bien au dessus de la recherche par force brute de clef global du DES . De plus on atteint presque un nombre de calcul impossible a faire pour un ordinateur civile. 
 		
 		\chapter{Contre-mesures}
 			\section{Doublé le calcul du DES}
@@ -357,15 +351,12 @@
 			\section{Diffusion de l'erreur}
 				Une autre solution que j'ai discuté avec mon chargé de td est la diffusion de l'erreur. Plus précisément, le but est de propagé l'erreur a tous les bits, plusieurs fois de manières non linéaire pour que le chiffré obtenu par l'attaquant ne puisse lui donner aucune information sur la clef ou tout autre élément utile a l'attaquant.
 				Cependant dans les fait cette solution n'a pas encore été réalisé pour le DES ou autre chiffrement du même type que le DES. Il y a un problème majeur avec cette méthode il faut déjà détecter la faute ce qui n'est pas trop compliqué en soit mais de cette détection découle le fait d'appliquer ou non la diffusion de la faute. A énoncé verbalement c'est simple mais dans les faits aucun modèle ou solution concrète n'a été décrite a ce jour dans la littérature Cryptographique.
-				
-			\section{Protection structurelle}
-			Une autre solution est de créé une carte qui dès qu'elle est attaqué, ce bloc et ne revoie strictement rien a l'assaillant.
 		
 		\chapter{Source}
 		Voici la liste des documents que j'ai utilisé:\\
 		\href{https://fr.wikipedia.org/wiki/Constantes_du_DES}{-Description des Sbox du DES}\\
 		-Des.pdf
-		-Cours de Licence 3 et M1 de cryptographie
+		-Cours de Licence 3 et Master 1 de cryptographie
 		
 
 		
