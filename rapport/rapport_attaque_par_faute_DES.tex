@@ -166,20 +166,20 @@
 		
 			\section{Description du principe d'attaque par faute}
 			
-			On va injecté une faute a l'aide d'un laser dans un tour (dans notre cas le 15ème), de cette faute résultera un chiffré différent de celui sans faute.
-			De ces Deux chiffrés on les comparera en effectuant divers calcul dessus pour arriver a manipulé quelque chose de simple et qui nous donne de l'information sur la clef secrète.
-			Plus précissement, on identifera quel bit est touché par la faute. Une fois le bit identifié on regardera quel fontion sont touchées par ce bit fauté.
-			Puis on effectura le calcul des fonctions touchés avec la version non fauté et fauté. Puis on comparera ces deux fonctions pour trouver des informations sur la clef secrète K .
+   On va injecter une faute à l'aide d'un laser dans un tour (dans notre cas le 15ème), de cette faute résultera un chiffré différent de celui sans faute.
+De ces deux chiffrés, on les comparera en effectuant divers calculs dessus pour arriver a manipulé quelque chose de simple et qui nous donne de l'information sur la clef secrète.
+Plus précisément, on identifiera quel bit est touché par la faute. Une fois le bit identifié, on regardera quelle fonction sont touchées par ce bit fauté.
+Puis on effectuera le calcul des fonctions touchées avec la version non fauté et fauté. Puis on comparera ces deux fonctions pour trouver des informations sur la clef secrète K.
 		\chapter{Application concrète}
 			\section{Description de l'attaque par faute}
-			Pour commencer on veut obtenir R16 et L16 donc on effectue au chiffré correcte les permutations décrite par IP. On fait la même chose pour obtenir R16' et L16' qui correspondent au chiffré fauté.\\
+			Pour commencer on veut obtenir $R_{16}$ et $L_{16}$ donc on effectue au chiffré correcte les permutations décrites par IP. On fait la même chose pour obtenir $R_{16}'$ et $L_{16}'$ qui correspondent au chiffré fauté.\\
 			On a donc $R_{16} = R_{15}$ , $L_{16} = L_{15}\oplus f(R_{15},K_{16})$ mais aussi $R_{16}'=R_{15}'$ et $L_{16}'=L_{15}\oplus f(R_{15}',K_{16})$.
 			Pour savoir ou ce situe l'erreur on effectue le calcul suivant $R_{16}\oplus R_{16}' = R_{15}\oplus R_{15}' = R_{15}\oplus R_{15}\oplus \mathcal{E} = \mathcal{E}$. Savoir ou ce situe l'erreur nous aidera plus tard.
-			\newline Une fois cela fait on passe a la partie plus technique.Notre but est de trouver une formule avec ce que nous connaissons, avec K16 dedans et la plus réduite possible.
+			\newline Une fois cela fait on passe à la partie plus technique.Notre but est de trouver une formule avec ce que nous connaissons, avec $K_{16}$ dedans et la plus réduite possible.
 			On va donc commencer par effectuer :\\
 			$L_{16}'\oplus L_{16} = L_{15}\oplus F(R_{15}',K_{16}) \oplus L_{15}\oplus F(R_{15},K_{16}) =F(R_{15}',K_{16})\oplus F(R_{15},K_{16})$.\\
 			
-			une fois cela fait on va écrire explicitement la fonction F. Cette fonction F consiste en une expansion(E) puis on xor le résultat avec $K_i$(dans notre cas $K_{16}$) ensuite le résultat du xor passe dans les Sbox et pour finir passe dans une permutation(P).
+			Une fois cela fait on va écrire explicitement la fonction F. Cette fonction F consiste en une expansion(E) puis on xor le résultat avec $K_i$(dans notre cas $K_{16}$) ensuite le résultat du xor passe dans les Sbox et pour finir passe dans une permutation(P).
 			\begin{figure}[h]
 			\centering
 				\begin{tikzpicture}
@@ -244,18 +244,18 @@
 			on obtient donc la formule suivant :
 			\begin{center}$L_{16}'\oplus L_{16} = P(S(E(R_{15}')\oplus K_{16}))\oplus P(S(E(R_{15})\oplus K_{16})) $\end{center}
 			
-			De cette formule on peut enlever la permutation P car on connais l'emplacement des bits permuté et la permutaion P est linéaire.\\
+			De cette formule on peut enlever la permutation P car on connais l'emplacement des bits permutés et la permutation P est linéaire.\\
 			on a donc :
 			\begin{center}$P^{-1}(L_{16}'\oplus L_{16}) =P^{-1}( P(S(E(R_{15}')\oplus K_{16}))\oplus P(S(E(R_{15})\oplus K_{16}))) $\end{center}
 			\begin{center}$P^{-1}(L_{16}'\oplus L_{16}) =S(E(R_{15}')\oplus K_{16})\oplus S(E(R_{15})\oplus K_{16}) $\end{center}
 			
-			A ce stade on ne peut pas réduire plus cette formule car S est non linéaire donc je ne peux pas l'enlever comme j'ai fait avec la permutaion P.\\
+			À ce stade on ne peut pas réduire plus cette formule car S est non linéaire donc je ne peux pas l'enlever comme j'ai fait avec la permutation P.\\
 			On va nommer deux variable $\alpha = E(R_{15})\oplus K_{16}$ et $\alpha' = E(R_{15}')\oplus K_{16}$.
-			Par force brute on va déterminer tous les $\alpha'$ passant dans la sbox nous donnant les même bits de sorti avant permutaion. Cela représente une force brute sur $2^{6}$valeurs a tester.On effectuera cette tache pour chaque chiffré fauté en notre possession.\\
-			Je vais étendre les $\alpha'$ obtenu jusqu'a 48bits pour pouvoir effectuer les calculs suivant tout en gardant l'emplacement de alpha parmis les 48bits rajouter.\\
-			$R_{15}'$ est connu ($R_{16}'=R_{15}'$) donc je vais calculer l'expansion de $R_{15}'$ puis effectuer un xor entre cette expansion et les $\alpha'$ déterminer précédement. De faire ce calcul me permettra d'avoir 6 bit de la clef $K_{16}$ cependant j'aurai plusieurs candidats (noté $\gamma$) car j'ai plusieurs $\alpha'$.\\
+			Par force brute, on va déterminer tous les $\alpha'$ passant dans la sbox nous donnant les mêmes bits de sorti avant permutation. Cela représente une force brute sur $2^{6}$valeurs a tester.On effectuera cette tâche pour chaque chiffré fauté en notre possession.\\
+			Je vais étendre les $\alpha'$ obtenu jusqu'à 48bits pour pouvoir effectuer les calculs suivant tout en gardant l'emplacement d'alpha parmi les 48bits rajouté.\\
+			$R_{15}'$ est connu ($R_{16}'=R_{15}'$) donc je vais calculer l'expansion de $R_{15}'$ puis effectuer un xor entre cette expansion et les $\alpha'$ déterminer précédement. De faire ce calcul me permettra d'avoir 6 bit de la clef $K_{16}$ cependant j'aurai plusieurs candidats (notés $\gamma$) car j'ai plusieurs $\alpha'$.\\
 			Dans un premier temps pour déterminer le bon candidat je vais calculer $\alpha$ avec comme clé un $\gamma$ a l'emplacement de la sbox touché par la faute ce qui nous donnera une clef de 48 bits.j'effectuerai cette opération autant de fois qu'il y a de $\gamma$.\\
-			Dans un second temps, je passerai le résultat de $\alpha$ dans les sbox puis je vérifie que le résultat obtenu est le bon avant permuation. Si il est bon alors cela veut dire que j'ai trouvé les 6 bon bits de clef ($\gamma$) sinon je continue jusqu'a trouver le bon $\gamma$ me donnant la bonne sortie avant permuation.\\
+			Dans un second temps, je passerai le résultat de $\alpha$ dans les sbox puis je vérifie que le résultat obtenu est le bon avant permuation. Si il est bon alors cela veut dire que j'ai trouvé les 6 bons bits de clef ($\gamma$) sinon je continue jusqu'a trouver le bon $\gamma$ me donnant la bonne sortie avant permuation.\\
 			
 			Exemple: la faute est situé au 30ème bit.\\
 			
@@ -313,17 +313,15 @@
 			}
 			\caption{table PC1(a) avec $C_{i}$ en haut, $D_{i}$ en bas et PC2(b)}
 			\end{figure}
-			
-			Pour retrouver la clef en entier on va calculer le cadencement de clef a l'envers.Plus précisément, on va inverser PC2 et PC1 pour retrouver l'emplacement de nos 48 bits avant cadencement. Une fois cela fait, nous connaissons donc 48 sur 56 bit donc il faut force brute sur 8 bit donc cela représente $2^{8}$ valeurs a testé. si on veut retrouver la clef entière avec les bits de parités, il faudra force brute sur 16 bits donc $2^{16}$ valeurs a tester.\\
+			Pour retrouver la clef en entier on va calculer le cadencement de clef a l'envers.Plus précisément, on va inverser PC2 et PC1 pour retrouver l'emplacement de nos 48 bits avant cadencement. Une fois cela fait, nous connaissons donc 48 sur 56 bit donc il faut force brute sur 8 bit donc cela représente $2^{8}$ valeurs a testé. si on veut retrouver la clef entière avec les bits de parité, il faudra juste couper la clef de 56 bit trouvé en 8 paquet de 7 bit puis rajouté un bit de telle manière que le nombre de 1 dans le paquet soit impaire.\\
 			Une fois cela fait j'obtient donc comme clef : E65875255B64BA40
 		
 		\chapter{Fautes sur les tours précédents}
 			\section{Tout est connu}
-			Dans ce cas si on connait tous les états intermédiaires de chaque tour car on peut y accéder physiquement sur la puce ou la carte alors l'attaque décrite un peu plus haut est possible sur tous les tours du DES. Ce pendant il y a un point qui diverge, pour retrouver la clef total du DES il faudra appliquer un candecement adapté au tour concerné.
+			Dans ce cas si on connait tous les états intermédiaires de chaque tour car on peut y accéder physiquement sur la puce ou la carte alors l'attaque décrite un peu plus haut est possible sur tous les tours du DES. Cependant il y a un point qui diverge, pour retrouver la clef totale du DES il faudra appliquer un cadencement adapté au tour concerné.
 			
 			\section{On ne connait que l'output}
 			Dans ce cas on ne connaitra que $R_{16},R_{16}',L_{16},L_{16}',R_{0} et L_{0}$.\\
-			
 			équation du DES pour le tour 14 sans faute:\\
 			$L_{15}=R_{14}$ | $R_{15}=L_{14}\oplus F(R_{14},K_{15})$\\
 			$R_{16}=R_{15}$ | $L_{16}=L_{15}\oplus F(R_{15},K_{16})$\\
@@ -331,33 +329,25 @@
 			$L_{15}'=R_{14}'$ | $R_{15}'=L_{14}\oplus F(R_{14}',K_{15})$\\
 			$R_{16}=R_{15}'$ | $L_{16}'=L_{15}'\oplus F(R_{15}',K_{16})$\\
 			
-			On remarque que la faute c'est propagé et que donc retracé ou a été la faute est compliqué donc il faudra faire une recherche exaustive sur K15 pour essayer de retracer cette faute. De plus si on choisi de faire ça on devra connaitre $L_15$ et $L_15'$ pour nous faciliter la tâche sinon c'est très compliqué et cela augmenterai grandement la compléxité.\\ 
-			cette recherche exaustive va élever au carré notre compléxité de base.On aura donc une compléxité de $2^{18}$
-			cette élèvement au carré sera subit a chaque fois qu'on remontera dans les tours.
-			Donc pour le tour 13 on aura $2^{36}$.\\
-			Pour le tour 12 on aura $2^{72}$. On remarque qu'a partir du tour 12 cela ne sert plus a rien de faire l'attaque car on est bien au dessus de la recherche par force brute de clef global du DES . De plus on atteint presque un nombre de calcul impossible a faire pour un ordinateur civile. 
-		
+			On remarque que la faute c'est propagé et que donc retracé ou a été la faute est compliqué donc il faudra faire une recherche exhaustive sur K15 pour essayer de retracer cette faute. De plus si on choisi de faire ça on devra connaitre $L_15$ et $L_15'$ pour nous faciliter la tâche sinon c'est très compliqué et cela augmenterai grandement la complexité.\\ 
+			Cette recherche exhaustive va élever la complexité de $2^{4}$. on aura donc comme compléxité $2^{13}$
+			Deplus pour les tours plus haut, il faudra éléver cette attaque au carré car il faudra guest plus de bit fauté.
+			Donc pour le tour 13 on aura $2^{26}$.\\
+			Pour le tour 12 on aura $2^{52}$.\\
+			Pour le tour 11 on aura $2^{104}$.On voit qu'a partir du tour 11 cela ne sert plus a rien de faire cette attaque car pour un ordinateur de nos jours, elle est incalculable dans un temps raisonnable, de plus elle excède grandement la valeur de force brute de recherche de la clef totale ($2^{64}$).
 		\chapter{Contre-mesures}
 			\section{Doublé le calcul du DES}
-				Une solution assez simple qui nous vient en tête est de calculé deux/plusieurs fois l'algorithme du DES pour le même message puis véfirier si les résultats obtenu a la fin est
+				Une solution assez simple qui nous vient en tête est de calculer deux/plusieurs fois l'algorithme du DES pour le même message puis véfirier si les résultats obtenus à la fin est
 				identique.
 				Si les résultats sont identique alors il n'y a pas eu d'injection de faute, sinon une faute a été introduite on ne renvoie rien.
-				Cependant cette méthode est partiellement efficace car on peut partir du principe que l'attaquant a plusieurs outils similaires pour faire la fautes au même endroit a chaque fois et 
+				Cependant cette méthode est partiellement efficace car on peut partir du principe que l'attaquant a plusieurs outils similaires pour faire la faute au même endroit a chaque fois et 
 				donc que l'injection de faute soit un succès. 
-				Il faudrait donc calculer n+1 fois le DES (n étant le nombre d'outils qu'a l'attaquant) pour espérer s'en protéger ce qui donnerai une compléxité très grande. 
-				De plus si on voulais mettre cette solution dans une carte a puce on serait très vite limité au nombre de fois que l'ont puisse calculer le DES.
-				La compléxité de cette solution serait de l'ordre K$\times$O(DES), K étant le nombre de fois que l'ont calcul le DES.
-			
+				Il faudrait donc calculer n+1 fois le DES (n étant le nombre d'outils qu'a l'attaquant) pour espérer s'en protéger ce qui donnerait une complexité très grande. 
+				De plus si on voulait mettre cette solution dans une carte à puce on serait très vite limité au nombre de fois que l'on puisse calculer le DES.
+				La complexité de cette solution serait de l'ordre K$\times$O(DES), K étant le nombre de fois que l'ont calcul le DES.
 			\section{Diffusion de l'erreur}
-				Une autre solution que j'ai discuté avec mon chargé de td est la diffusion de l'erreur. Plus précisément, le but est de propagé l'erreur a tous les bits, plusieurs fois de manières non linéaire pour que le chiffré obtenu par l'attaquant ne puisse lui donner aucune information sur la clef ou tout autre élément utile a l'attaquant.
-				Cependant dans les fait cette solution n'a pas encore été réalisé pour le DES ou autre chiffrement du même type que le DES. Il y a un problème majeur avec cette méthode il faut déjà détecter la faute ce qui n'est pas trop compliqué en soit mais de cette détection découle le fait d'appliquer ou non la diffusion de la faute. A énoncé verbalement c'est simple mais dans les faits aucun modèle ou solution concrète n'a été décrite a ce jour dans la littérature Cryptographique.
-		
-		\chapter{Source}
-		Voici la liste des documents que j'ai utilisé:\\
-		\href{https://fr.wikipedia.org/wiki/Constantes_du_DES}{-Description des Sbox du DES}\\
-		-Des.pdf
-		-Cours de Licence 3 et Master 1 de cryptographie
-		
-
-		
+				Une autre solution que j'ai discuté avec mon chargé de td est la diffusion de l'erreur. Plus précisément, le but est de propager l'erreur à tous les bits, plusieurs fois de manières non linéaire pour que le chiffré obtenu par l'attaquant ne puisse lui donner aucune information sur la clef ou tout autre élément utile a l'attaquant.
+				Cependant dans les faits cette solution n'a pas encore été réalisée pour le DES ou autre chiffrement du même type que le DES. Il y a un problème majeur, trouvé une méthode qui diffuse l'erreur quand il y en a une mais ne diffuse rien quand il n'y a pas d'erreur et garde le sens du messsage. À énoncé verbalement c'est simple mais dans les faits aucun modèle ou solution concrète n'a été décrite a ce jour dans la littérature Cryptographique.
+			\section{Protection physique}
+			On peut penser a une protection physique qui détecte quand l'intégrité de la carte est forcée et bloque donc le calcul du DES et même on pourrait aller plus loin pour que l'assaillant n'ait aucune information. La carte pourrait totalement effacer ces données stockées dès que son intégrité est mis en péril.
 \end{document}
