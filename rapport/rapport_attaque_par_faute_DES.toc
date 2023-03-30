@@ -10,4 +10,4 @@
 \contentsline {chapter}{\numberline {5}Contre-mesures}{9}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Doublé le calcul du DES}{9}{section.5.1}%
 \contentsline {section}{\numberline {5.2}Diffusion de l'erreur}{9}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Protection physique}{9}{section.5.3}%
+\contentsline {section}{\numberline {5.3}Protection physique}{10}{section.5.3}%

@@ -165,7 +165,6 @@
 			\end{figure}
 		
 			\section{Description du principe d'attaque par faute}
-			
    On va injecter une faute à l'aide d'un laser dans un tour (dans notre cas le 15ème), de cette faute résultera un chiffré différent de celui sans faute.
 De ces deux chiffrés, on les comparera en effectuant divers calculs dessus pour arriver a manipulé quelque chose de simple et qui nous donne de l'information sur la clef secrète.
 Plus précisément, on identifiera quel bit est touché par la faute. Une fois le bit identifié, on regardera quelle fonction sont touchées par ce bit fauté.
@@ -313,6 +312,7 @@ Puis on effectuera le calcul des fonctions touchées avec la version non fauté 
 			}
 			\caption{table PC1(a) avec $C_{i}$ en haut, $D_{i}$ en bas et PC2(b)}
 			\end{figure}
+			\newpage
 			Pour retrouver la clef en entier on va calculer le cadencement de clef a l'envers.Plus précisément, on va inverser PC2 et PC1 pour retrouver l'emplacement de nos 48 bits avant cadencement. Une fois cela fait, nous connaissons donc 48 sur 56 bit donc il faut force brute sur 8 bit donc cela représente $2^{8}$ valeurs a testé. si on veut retrouver la clef entière avec les bits de parité, il faudra juste couper la clef de 56 bit trouvé en 8 paquet de 7 bit puis rajouté un bit de telle manière que le nombre de 1 dans le paquet soit impaire.\\
 			Une fois cela fait j'obtient donc comme clef : E65875255B64BA40
 		
@@ -348,6 +348,7 @@ Puis on effectuera le calcul des fonctions touchées avec la version non fauté 
 			\section{Diffusion de l'erreur}
 				Une autre solution que j'ai discuté avec mon chargé de td est la diffusion de l'erreur. Plus précisément, le but est de propager l'erreur à tous les bits, plusieurs fois de manières non linéaire pour que le chiffré obtenu par l'attaquant ne puisse lui donner aucune information sur la clef ou tout autre élément utile a l'attaquant.
 				Cependant dans les faits cette solution n'a pas encore été réalisée pour le DES ou autre chiffrement du même type que le DES. Il y a un problème majeur, trouvé une méthode qui diffuse l'erreur quand il y en a une mais ne diffuse rien quand il n'y a pas d'erreur et garde le sens du messsage. À énoncé verbalement c'est simple mais dans les faits aucun modèle ou solution concrète n'a été décrite a ce jour dans la littérature Cryptographique.
+			\newpage
 			\section{Protection physique}
 			On peut penser a une protection physique qui détecte quand l'intégrité de la carte est forcée et bloque donc le calcul du DES et même on pourrait aller plus loin pour que l'assaillant n'ait aucune information. La carte pourrait totalement effacer ces données stockées dès que son intégrité est mis en péril.
 \end{document}
