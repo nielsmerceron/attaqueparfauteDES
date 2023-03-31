@@ -1,4 +1,4 @@
-\babel@toc {french}{}
+\babel@toc {french}{}\relax 
 \contentsline {chapter}{\numberline {1}Attaque par faute sur le DES}{2}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Description du principe d'attaque par faute}{3}{section.1.1}%
 \contentsline {chapter}{\numberline {2}Application concrète}{4}{chapter.2}%
