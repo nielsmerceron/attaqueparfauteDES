@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{report}
+\documentclass[a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[french]{babel}
@@ -10,7 +10,7 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{subfig}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 
 \date{}
 \title{Calcul sécurisé, Attaque par faute sur le DES}
@@ -267,10 +267,9 @@ Puis on effectuera le calcul des fonctions touchées avec la version non fauté 
 			$\gamma_2=E(R_{15}')\oplus \alpha_2'$= 10 ..... 1000 0010\\
 			$\alpha_{\gamma_1}$= 01 ..... 1000 0101 , $\alpha_{\gamma_1}$ n'est pas le bon candidat car les 4 derniers bits sont différent de celui de $S(E(R_{15})\oplus K_{16}$.\\
 			$\alpha_{\gamma_2}$= 00 ..... 0110 1110 , $\alpha_{\gamma_2}$ les 4 derniers bit sont équivalent à $S(E(R_{15})\oplus K_{16}$ donc les bit de 31 à 28 sont égaux a ceux de $\gamma_2$.\\
-			
 			La compléxité serait de $2^{6}$ par Sbox donc une compléxité de $2^{9}$ au total.\\
 			Pour finir après avoir appliquer l'attaque décrite un peu plus haut j'obtiens la clef suivante: B1A6E1869A35
-		\chapter{Retrouver la clef complète du DES}
+		\chapter{Clef complète du DES}
 			\begin{algorithm}
 				\caption{DES cadencement de clef}
 				\hspace*{\algorithmicindent} \textbf{Input}: 64 bit de clef K=$k_{1} .... k_{64}$.\\
@@ -312,8 +311,8 @@ Puis on effectuera le calcul des fonctions touchées avec la version non fauté 
 			}
 			\caption{table PC1(a) avec $C_{i}$ en haut, $D_{i}$ en bas et PC2(b)}
 			\end{figure}
-			\newpage
-			Pour retrouver la clef en entier on va calculer le cadencement de clef a l'envers.Plus précisément, on va inverser PC2 et PC1 pour retrouver l'emplacement de nos 48 bits avant cadencement. Une fois cela fait, nous connaissons donc 48 sur 56 bit donc il faut force brute sur 8 bit donc cela représente $2^{8}$ valeurs a testé. si on veut retrouver la clef entière avec les bits de parité, il faudra juste couper la clef de 56 bit trouvé en 8 paquet de 7 bit puis rajouté un bit de telle manière que le nombre de 1 dans le paquet soit impaire.\\
+			
+			Pour retrouver la clef en entier on va calculer le cadencement de clef a l'envers.Plus précisément, on va inverser PC2 et PC1 pour retrouver l'emplacement de nos 48 bits avant cadencement. Une fois cela fait, nous connaissons donc 48 sur 56 bit donc il faut force brute sur 8 bit donc cela représente $2^{8}$ valeurs a testé. si on veut retrouver la clef entière avec les bits de parité, il faudra juste couper la clef de 56 bit trouvé en 8 paquets de 7 bit puis rajouté un bit de telle manière que le nombre de 1 dans le paquet soit impaire.\\
 			Une fois cela fait j'obtient donc comme clef : E65875255B64BA40
 		
 		\chapter{Fautes sur les tours précédents}
@@ -329,9 +328,9 @@ Puis on effectuera le calcul des fonctions touchées avec la version non fauté 
 			$L_{15}'=R_{14}'$ | $R_{15}'=L_{14}\oplus F(R_{14}',K_{15})$\\
 			$R_{16}=R_{15}'$ | $L_{16}'=L_{15}'\oplus F(R_{15}',K_{16})$\\
 			
-			On remarque que la faute c'est propagé et que donc retracé ou a été la faute est compliqué donc il faudra faire une recherche exhaustive sur K15 pour essayer de retracer cette faute. De plus si on choisi de faire ça on devra connaitre $L_15$ et $L_15'$ pour nous faciliter la tâche sinon c'est très compliqué et cela augmenterai grandement la complexité.\\ 
+			On remarque que la faute c'est propagé et que donc retracé où a été la faute est compliqué. Il faudra faire un guest de bit fauté pour retracer où est cette faute. De plus si on choisi de faire ça on devra connaitre $L_{15}$ et $L_{15}'$ pour nous faciliter la tâche sinon c'est très compliqué et cela augmenterai grandement la complexité.\\ 
 			Cette recherche exhaustive va élever la complexité de $2^{4}$. on aura donc comme compléxité $2^{13}$
-			Deplus pour les tours plus haut, il faudra éléver cette attaque au carré car il faudra guest plus de bit fauté.
+			De plus pour les tours plus haut, il faudra éléver cette attaque au carré car il faudra guest plus de bit fauté.
 			Donc pour le tour 13 on aura $2^{26}$.\\
 			Pour le tour 12 on aura $2^{52}$.\\
 			Pour le tour 11 on aura $2^{104}$.On voit qu'a partir du tour 11 cela ne sert plus a rien de faire cette attaque car pour un ordinateur de nos jours, elle est incalculable dans un temps raisonnable, de plus elle excède grandement la valeur de force brute de recherche de la clef totale ($2^{64}$).
